@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загрузка с фантиками 🍬</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffc0cb;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 192, 203, 0.7);
+            padding: 30px;
+            border-radius: 50px;
+        }
+
+        .cake-sticker {
+            font-size: 100px;
+            display: inline-block;
+            margin-bottom: 20px;
+            animation: breathe 1.5s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .progress-container {
+            width: 250px;
+            height: 15px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
+            border: 2px solid #ff69b4;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff69b4;
+            transition: width 0.1s linear;
+        }
+
+        .status-text {
+            margin-top: 15px;
+            color: #d11d7c;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .confetti {
+            position: absolute;
+            top: -50px;
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(540deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="cake-sticker">🎂</div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="myBar"></div>
+        </div>
+        
+        <div class="status-text" id="statusText">Ждем... 0%</div>
+    </div>
+
+    <script>
+        function createConfetti() {
+            const icons = ['🍬', '✨', '🌸', '🍭', '💖', '🌈', '🎊'];
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.innerText = icons[Math.floor(Math.random() * icons.length)];
+            confetti.style.left = Math.random() * 100 + "vw";
+            confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+            confetti.style.fontSize = (Math.random() * 20 + 15) + "px";
+            document.body.appendChild(confetti);
+            setTimeout(() => { confetti.remove(); }, 5000);
+        }
+
+        setInterval(createConfetti, 100);
+
+        function startLoading() {
+            let elem = document.getElementById("myBar");
+            let status = document.getElementById("statusText");
+            let width = 0;
+            
+            let id = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(id);
+                    status.innerHTML = "Готово! 🍰✨";
+                } else {
+                    width++;
+                    elem.style.width = width + '%';
+                    status.innerHTML = "Ждем... " + width + "%";
+                }
+            }, 60);
+        }
+
+        window.onload = startLoading;
+    </script>
+
+</body>
+</html>

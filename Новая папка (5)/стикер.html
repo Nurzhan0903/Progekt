@@ -1,0 +1,138 @@
+<!-- <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Карусель: Без выделения</title>
+    <style>
+        body {
+            margin: 0;
+            background: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            perspective: 1000px;
+            overflow: hidden;
+            touch-action: none;
+            /* ОТКЛЮЧАЕМ ВЫДЕЛЕНИЕ СИНИМ */
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none;     /* IE 10+ */
+            user-select: none;         /* Standard */
+            -webkit-tap-highlight-color: transparent; /* Убирает синюю вспышку на мобилках */
+        }
+
+        #drag-container {
+            position: relative;
+            display: flex;
+            transform-style: preserve-3d;
+            transform: rotateX(0deg); 
+            will-change: transform;
+        }
+
+        #spin-container {
+            position: relative;
+            display: flex;
+            transform-style: preserve-3d;
+            width: 200px;
+            height: 250px;
+            will-change: transform;
+        }
+
+        .carousel-card {
+            position: absolute;
+            width: 200px;
+            height: 250px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255,255,255,0.15);
+            -webkit-box-reflect: below 15px linear-gradient(transparent, transparent, rgba(0,0,0,0.2));
+            cursor: grab;
+        }
+
+        .carousel-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            -webkit-user-drag: none; /* Запрещает "тащить" картинку отдельно */
+        }
+
+        .hint {
+            position: absolute;
+            bottom: 30px;
+            color: #444;
+            font-family: sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="drag-container">
+        <div id="spin-container">
+            <div class="carousel-card"><img src="img/giphy.gif"></div>
+            <div class="carousel-card"><img src="img/joy-23.gif"></div>
+            <div class="carousel-card"><img src="img/cute-happy-birthday-sticker-wink-with-cake-nzv7n1fw5n4g6ngc.png"></div>
+            <div class="carousel-card"><img src="img/020f0ed3-43be-479d-8325-0b40acf15ef5.png"></div>
+            <div class="carousel-card"><img src="img/Let-Her-Go-Passenger-Covers-English-2014-500x500.jpg"></div>
+        </div>
+    </div>
+
+    <div class="hint">Кликай сколько хочешь — синего не будет</div>
+
+    <script>
+        const radius = 350;
+        let autoRotateSpeed = 0.4;
+        const ospin = document.getElementById('spin-container');
+        const cards = ospin.getElementsByClassName('carousel-card');
+
+        let rotationY = 0;
+        let isDragging = false;
+        let startX = 0;
+        let lastDeltaX = 0;
+
+        for (let i = 0; i < cards.length; i++) {
+            cards[i].style.transform = `rotateY(${i * (360 / cards.length)}deg) translateZ(${radius}px)`;
+        }
+
+        function animate() {
+            if (!isDragging) {
+                rotationY += autoRotateSpeed; 
+            }
+            ospin.style.transform = `rotateY(${rotationY}deg)`;
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        document.onpointerdown = function(e) {
+            isDragging = true;
+            startX = e.clientX;
+            
+            this.onpointermove = function(e) {
+                let deltaX = e.clientX - startX;
+                rotationY += deltaX * 0.4; 
+                if (deltaX !== 0) lastDeltaX = deltaX;
+                startX = e.clientX;
+            };
+
+            this.onpointerup = function() {
+                isDragging = false;
+                if (lastDeltaX > 0) {
+                    autoRotateSpeed = Math.abs(autoRotateSpeed);
+                } else if (lastDeltaX < 0) {
+                    autoRotateSpeed = -Math.abs(autoRotateSpeed);
+                }
+                this.onpointermove = null;
+                this.onpointerup = null;
+            };
+        };
+
+        window.oncontextmenu = function() { return false; }
+    </script>
+</body>
+</html> -->
