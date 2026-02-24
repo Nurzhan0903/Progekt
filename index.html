@@ -66,12 +66,14 @@
             top: -10px; will-change: transform;
         }
 
-        model-viewer {
-            width: 100%; height: 65vh; z-index: 2;
-            --poster-color: transparent; outline: none;
+        .model-viewer {
+            width: 100%; 
+            height: 40vh; /* Уменьшили высоту области с 65 до 40 */
+            z-index: 2;
+            --poster-color: transparent; 
+            outline: none;
             filter: drop-shadow(0 0 30px rgba(255, 223, 0, 0.5));
         }
-
         .open-text {
             font-family: 'Dancing Script', cursive; 
             font-size: 55px; /* Увеличили размер (было 38px) */
@@ -169,7 +171,7 @@
         <model-viewer 
             id="cake" src="img/birthday_cake.glb" 
             auto-rotate camera-controls interaction-prompt="none"
-            touch-action="none" scale="0.8 0.8 0.8" exposure="1.3">
+            touch-action="none" scale="scale="0.6 0.6 0.6" exposure="1.3">
         </model-viewer>
         
         <div class="open-text" onclick="openGift()">Open Your Gift</div>
