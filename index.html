@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>С Днем Рождения! 🎂</title>
+    <title>С Днем Рождения Аяшка 🎂</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+        /* ПРИВАТНОСТЬ И ЗАПРЕТ ВЫДЕЛЕНИЯ */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            outline: none !important;
+            -webkit-user-select: none;
+            user-select: none;
+        }
 
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Segoe UI', sans-serif;
             overflow: hidden; 
             background-color: #ffc0cb;
-            -webkit-user-select: none; user-select: none;
-            -webkit-tap-highlight-color: transparent;
         }
 
         #loader-screen {
@@ -45,7 +51,14 @@
             opacity: 0; visibility: hidden; transition: opacity 1.5s ease; z-index: 1000;
         }
 
-        .snow-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+        /* СНЕГ ПОВЕРХ ВСЕГО (НЕ МУТНЕЕТ) */
+        .snow-wrapper { 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            pointer-events: none; 
+            z-index: 9999; 
+        }
         .snow { position: absolute; background: white; border-radius: 50%; opacity: 1; top: -10px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
 
         model-viewer {
@@ -67,17 +80,28 @@
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
             opacity: 0; transition: opacity 0.5s ease;
         }
+
         .card {
             width: 92%; max-width: 420px; height: 85vh;
             background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px);
             border-radius: 40px; border: 1px solid rgba(255,255,255,0.2);
             display: flex; flex-direction: column; color: white; overflow: hidden;
+            position: relative;
         }
-        .scroll { overflow-y: auto; padding: 25px; text-align: center; }
+
+        .scroll { 
+            overflow-y: auto; 
+            overflow-x: hidden; 
+            padding: 25px; 
+            text-align: center; 
+            width: 100%; 
+            box-sizing: border-box; 
+        }
+
         .close-x { position: absolute; top: 15px; right: 25px; font-size: 45px; cursor: pointer; z-index: 100; }
 
         .player { background: rgba(255,255,255,0.2); padding: 20px; border-radius: 30px; margin-bottom: 20px; }
-        #track-img { width: 100px; height: 100px; border-radius: 20px; object-fit: cover; }
+        #track-img { width: 100px; height: 100px; border-radius: 20px; object-fit: cover; -webkit-user-drag: none; }
         .p-btn, .skip-btn { background: none; border: none; color: white; cursor: pointer; font-size: 40px; outline: none; }
 
         .birthday-wish {
@@ -85,10 +109,29 @@
             margin: 20px 0 30px 0; color: #fff; text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
         }
 
-        .carousel-container { height: 200px; perspective: 1000px; margin: 30px 0; touch-action: pan-y; cursor: grab; }
-        #spin { position: relative; transform-style: preserve-3d; width: 80px; height: 120px; margin: 0 auto; }
-        .item { position: absolute; width: 80px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.3); }
-        .item img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+        .carousel-container { 
+            height: 250px; 
+            perspective: 800px; 
+            margin: 100px 0 20px 0; 
+            touch-action: pan-y; 
+            cursor: grab; 
+        }
+        #spin { 
+            position: relative; 
+            transform-style: preserve-3d; 
+            width: 120px; 
+            height: 180px; 
+            margin: 0 auto; 
+        }
+        .item { 
+            position: absolute; 
+            width: 120px; 
+            height: 180px; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            border: 1px solid rgba(255,255,255,0.3); 
+        }
+        .item img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
 
         @keyframes fall { to { transform: translateY(105vh); } }
         @keyframes floatGlow { 0%, 100% { transform: translateY(0); opacity: 0.9; } 50% { transform: translateY(-10px); opacity: 1; } }
@@ -102,8 +145,9 @@
         <div id="loading-text">Разогреваем духовку...</div>
     </div>
 
+    <div class="snow-wrapper" id="snowBox"></div> 
+
     <div class="main-container" id="mainContent">
-        <div class="snow-wrapper" id="snowBox"></div> 
         <model-viewer id="cake" src="img/birthday_cake.glb" interaction-prompt="none" disable-zoom touch-action="none" scale="0.7 0.7 0.7" exposure="2.0"></model-viewer>
         <div class="open-text" onclick="openGift()">Open Your Gift</div>
     </div>
@@ -112,7 +156,7 @@
         <div class="card">
             <span class="close-x" onclick="closeGift()">×</span>
             <div class="scroll">
-                <h2 style="font-family: 'Dancing Script'; font-size: 35px; margin-bottom: 10px;">С 13-летием! 🎉</h2>
+                <h2 style="font-family: 'Dancing Script'; font-size: 35px; margin-bottom: 10px;">С 13-летием Аяшка! 🎉</h2>
                 
                 <div class="player">
                     <img id="track-img" src="">
@@ -125,20 +169,27 @@
                 </div>
 
                 <div class="birthday-wish">
-                    Нашей любимой младшей сестрёнке сегодня 13! ✨ <br>
-                    Ты — наше солнышко и общая радость. Пусть твоя жизнь будет такой же сладкой, как этот торт! Родители и твои 3 старшие сестры всегда рядом. Сияй, мечтай и будь самой счастливой! 💖🌸🎁
+                    13 лет — это не просто цифра, это твой официальный переход на новый уровень! 🎮✨ Теперь ты в клубе тинейджеров, где правила игры меняются, а возможности становятся безграничными. Желаю тебе, чтобы твоя жизнь была как самый крутой плейлист в наушниках: только любимые треки, мощный бит и никакого шума на фоне! 🎧🔥 <br><br>
+                    Просто наслаждайся этим временем, пока ты покоряешь этот мир. Ты — главная героиня этой истории, и мы уверены: твой сериал будет легендарным! 🎬🌟 С твоим днем, Аяшка! 👑🥳🎂🎁🎈
+                    <p>✨ Любим тебя бесконечно! ✨</p>
                 </div>
 
                 <div class="carousel-container" id="carouselArea">
                     <div id="spin">
-                        <div class="item"><img src="img/giphy.gif"></div>
-                        <div class="item"><img src="img/joy-23.gif"></div>
-                        <div class="item"><img src="img/cute-happy-birthday-sticker-wink-with-cake-nzv7n1fw5n4g6ngc.gif"></div>
-                        <div class="item"><img src="img/IMG-20210118-WA0027.jpg"></div>
-                        <div class="item"><img src="img/Let-Her-Go-Passenger-Covers-English-2014-500x500.jpg"></div>
+                        <div class="item"><img src="img/1.jpeg"></div>
+                        <div class="item"><img src="img/2.jpeg"></div>
+                        <div class="item"><img src="img/3.jpeg"></div>
+                        <div class="item"><img src="img/4.jpeg"></div>
+                        <div class="item"><img src="img/5.jpeg"></div>
+                        <div class="item"><img src="img/6.jpeg"></div>
+                        <div class="item"><img src="img/7.jpeg"></div>
+                        <div class="item"><img src="img/8.jpeg"></div>
+                        <div class="item"><img src="img/9.jpeg"></div>
+                        <div class="item"><img src="img/10.jpeg"></div>
+                        <div class="item"><img src="img/11.jpeg"></div>
+                        <div class="item"><img src="img/12.jpeg"></div>
                     </div>
                 </div>
-                <p>✨ Любим тебя бесконечно! ✨</p>
             </div>
         </div>
     </div>
@@ -147,14 +198,7 @@
 
     <script>
         // БЕГУЩАЯ СТРОКА ЗАГРУЗКИ
-        const phrases = [
-            "Разогреваем духовку...",
-            "Зажигаем свечи...",
-            "Нарезаем тортик...",
-            "Зовём всех сестёр...",
-            "Готовим подарки...",
-            "Почти готово! ✨"
-        ];
+        const phrases = ["Разогреваем духовку...", "Зажигаем свечи...", "Нарезаем тортик...", "Зовём всех сестёр...", "Готовим подарки...", "Почти готово! ✨"];
         let pIdx = 0;
         setInterval(() => {
             const txt = document.getElementById('loading-text');
@@ -168,6 +212,7 @@
             }
         }, 2500);
 
+        // ГЕНЕРАЦИЯ СНЕГА
         const snowBox = document.getElementById('snowBox');
         for (let i = 0; i < 100; i++) {
             let s = document.createElement('div');
@@ -181,9 +226,11 @@
 
         const tracks = [
             { name: "Happy Birthday", link: "img/happy.mp3", img: "img/020f0ed3-43be-479d-8325-0b40acf15ef5.png" },
-            { name: "Let Her Go", link: "img/Let Her Go.mp3", img: "img/Let-Her-Go-Passenger-Covers-English-2014-500x500.jpg" }
+            { name: "Let Her Go", link: "img/Let Her Go.mp3", img: "img/Let-Her-Go-Passenger-Covers-English-2014-500x500.jpg" },
+            { name: "Until I Found You", link: "img/found.mp3", img: "img/ab67616d0000b2731e5a19f72f09007c69384563.jfif" },
         ];
         let tIdx = 1;
+
         const player = document.getElementById('audio');
         function setTrack(i) {
             const t = tracks[i];
@@ -245,51 +292,44 @@
             setTimeout(() => { modal.style.display = 'none'; }, 500);
         }
 
-        let cakeCurrDegree = 0, cakeRotateSpeed = 0.05, isCakeDragging = false, cakeStartX = 0;
-
+        // КОНТРОЛЬ ТОРТА
+        let cakeCurrDegree = 0, cakeRotateSpeed = 0.03, isCakeDragging = false, cakeStartX = 0;
         function initCakeControl() {
             const cake = document.getElementById('cake');
             const start = (e) => { isCakeDragging = true; cakeStartX = e.pageX || e.touches[0].pageX; };
             const move = (e) => {
                 if (!isCakeDragging) return;
                 let x = e.pageX || e.touches[0].pageX;
-                // ИНВЕРСИЯ ТУТ: поставил минус перед скобкой
                 cakeRotateSpeed = -(x - cakeStartX) * 0.1; 
                 cakeCurrDegree += cakeRotateSpeed;
                 updateCakeRotation();
                 cakeStartX = x;
             };
-
             cake.addEventListener('mousedown', start);
-            cake.addEventListener('touchstart', start);
+            cake.addEventListener('touchstart', start, {passive: true});
             window.addEventListener('mousemove', move);
-            window.addEventListener('touchmove', move);
+            window.addEventListener('touchmove', move, {passive: false});
             window.addEventListener('mouseup', () => isCakeDragging = false);
             window.addEventListener('touchend', () => isCakeDragging = false);
 
             setInterval(() => {
                 if (!isCakeDragging) {
-                    if (Math.abs(cakeRotateSpeed) > 0.05) cakeRotateSpeed *= 0.96; 
-                    else cakeRotateSpeed = cakeRotateSpeed > 0 ? 0.05 : -0.05; 
+                    if (Math.abs(cakeRotateSpeed) > 0.03) cakeRotateSpeed *= 0.96; 
+                    else cakeRotateSpeed = cakeRotateSpeed > 0 ? 0.03 : -0.03; 
                     cakeCurrDegree += cakeRotateSpeed;
                     updateCakeRotation();
                 }
             }, 16);
         }
+        function updateCakeRotation() { document.getElementById('cake').cameraOrbit = `${cakeCurrDegree}deg 75deg auto`; }
 
-        function updateCakeRotation() {
-            document.getElementById('cake').cameraOrbit = `${cakeCurrDegree}deg 75deg auto`;
-        }
-
-        let currDegree = 0, rotateSpeed = 0.4, isDragging = false, startX = 0;
-
+        // КАРУСЕЛЬ
+        let currDegree = 0, rotateSpeed = 0.05, isDragging = false, startX = 0;
         function initCarousel() {
             const spin = document.getElementById('spin'), items = spin.getElementsByClassName('item'), area = document.getElementById('carouselArea');
             for (let i = 0; i < items.length; i++) {
-                // translateZ(130px) - СДЕЛАЛ БЛИЖЕ
-                items[i].style.transform = `rotateY(${i * (360 / items.length)}deg) translateZ(130px)`;
+                items[i].style.transform = `rotateY(${i * (360 / items.length)}deg) translateZ(350px)`;
             }
-
             if (!spin.dataset.init) {
                 const start = (e) => { isDragging = true; startX = e.pageX || e.touches[0].pageX; };
                 const move = (e) => {
@@ -303,14 +343,14 @@
                 area.addEventListener('mousedown', start);
                 area.addEventListener('mousemove', move);
                 window.addEventListener('mouseup', () => isDragging = false);
-                area.addEventListener('touchstart', start);
-                area.addEventListener('touchmove', move);
+                area.addEventListener('touchstart', start, {passive: true});
+                area.addEventListener('touchmove', move, {passive: false});
                 area.addEventListener('touchend', () => isDragging = false);
 
                 setInterval(() => {
                     if (!isDragging) {
-                        if (Math.abs(rotateSpeed) > 0.3) rotateSpeed *= 0.96;
-                        else rotateSpeed = rotateSpeed > 0 ? 0.4 : -0.4;
+                        if (Math.abs(rotateSpeed) > 0.05) rotateSpeed *= 0.96;
+                        else rotateSpeed = rotateSpeed > 0 ? 0.05 : -0.05;
                         currDegree += rotateSpeed;
                         spin.style.transform = `rotateY(${currDegree}deg)`;
                     }
